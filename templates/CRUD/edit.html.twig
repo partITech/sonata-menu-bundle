@@ -1,0 +1,28 @@
+{#
+
+This file is part of the Sonata package.
+
+(c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+
+#}
+
+{% extends '@PartitechSonataMenu/CRUD/base_edit.html.twig' %}
+
+{% block tab_menu %}
+    {{ parent() }}
+    {% include '@PartitechSonataExtra/Admin/translation/crud_header.html.twig' %}
+{% endblock tab_menu %}
+{% block navbar_title %}
+{% endblock %}
+{% block sonata_admin_content_actions_wrappers %}
+    {% include '@PartitechSonataExtra/Admin/translation/crud_header_actions_buttons.html.twig' %}
+{% endblock %}
+
+{% block sonata_form_actions %}
+    {% set site = app.request.query.get('site') %}
+    <input type="hidden" name="site_id" value="{{ site }}">
+    {{ parent() }}
+{% endblock %}

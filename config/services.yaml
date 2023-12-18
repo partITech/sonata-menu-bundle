@@ -1,0 +1,67 @@
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+    #  _instanceof:
+    #    Sonata\AdminBundle\Admin\AbstractAdmin:
+    #      tags: { name: sonata.admin }
+
+
+
+    Partitech\SonataMenu\:
+        resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Entity/'
+            - '../src/PartitechSonataMenuBundle.php'
+        #      - '../src/Admin'
+
+        #  sonata_admin:
+        #    namespace: Partitech\SonataExtra\Admin\
+        #    resource: '../src/Admin'
+
+    Symfony\Component\DependencyInjection\ContainerInterface: '@service_container'
+
+    sonata_menu.factory:
+        class: Partitech\SonataMenu\Factory\MenuFactor
+
+    sonata_menu.manager:
+        class: Partitech\SonataMenu\Manager\MenuManager
+        arguments: ["@doctrine.orm.entity_manager"]
+        public: true
+
+    sonata_menu.repo:
+        class: Partitech\SonataMenu\Repository\MenuRepository
+        factory: ['@doctrine.orm.entity_manager', 'getRepository']
+        arguments:
+            - Partitech\SonataMenu\Model\MenuInterface
+
+    sonata_menu_item.repo:
+        class: Partitech\SonataMenu\Repository\MenuItemRepository
+        factory: ['@doctrine.orm.entity_manager', 'getRepository']
+        arguments:
+            - Partitech\SonataMenu\Model\MenuItemInterface
+
+    sonata_menu.admin.menu:
+        class: '%sonata_menu.admins.menu%'
+        arguments: [~, '%sonata_menu.entity.menu%', Partitech\SonataMenu\Controller\MenuController]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: config.label_menu, group: config.label_menu, label_catalogue: PartitechSonataMenuBundle }
+        calls:
+            - [ setTranslationDomain, ['PartitechSonataMenuBundle']]
+            - [ addChild, ['@sonata_menu.admin.menu_item', 'menu']]
+
+    sonata_menu.admin.menu_item:
+        public: true
+        class: '%sonata_menu.admins.menu_item%'
+        arguments: [~, '%sonata_menu.entity.menu_item%', Partitech\SonataMenu\Controller\MenuItemController, Partitech\SonataMenu\Entity\Menu]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: config.label_menu_item, group: config.label_menu, show_in_dashboard: false, label_catalogue: PartitechSonataMenuBundle }
+        calls:
+            - [ setContainer, ['@service_container']]
+            - [ setSlugify, ['@sonata.page.slugify.cocur']]
+            - [ setTranslationDomain, ['PartitechSonataMenuBundle']]
+
+
+    Sonata\AdminBundle\Route\DefaultRouteGenerator: '@sonata.admin.route.default_generator'

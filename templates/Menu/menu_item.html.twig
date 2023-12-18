@@ -1,0 +1,45 @@
+{% if type == 'list' %}
+
+<ul class="list-group">
+
+{% for item in items %}
+    <li class="menu-item list-group-item{{ item.enabled == false ? ' disabled' : '' }}" data-id="{{ item.id }}">
+        <div class="item-content row">
+        	<div class="col-md-6">
+            	<span>{{ item.name }}</span>
+            </div>
+            <div class="col-md-3">
+                <a class="btn btn-xs {% if item.enabled %}btn-warning{% else %}btn-success{% endif %}" href="{{ admin.getChild('sonata_menu.admin.menu_item').generateUrl('toggle', {'id':item.id})}}">
+                    <strong>
+                        {% if item.enabled %}
+                        {{ 'config.label_disabled'|trans({}, 'PartitechSonataMenuBundle') }}
+                        {% else %}
+                        {{ 'config.label_enabled'|trans({}, 'PartitechSonataMenuBundle') }}
+                        {% endif %}
+                    </strong>
+                </a>
+            </div>
+            <div class="col-md-3">
+            	<div class="btn-group">
+					<button class="btn btn-xs btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				    	{% trans from "PartitechSonataMenuBundle" %}config.label_action{% endtrans %} <span class="caret"></span>
+				  	</button>
+					<ul class="dropdown-menu dropdown-menu-right">
+				    	<li><a class="btn-menuitem" href="{{admin.getChild('sonata_menu.admin.menu_item').generateUrl('delete', {'id':item.id})}}"><i class="fa fa-times" aria-hidden="true"></i>  <strong>{% trans from "PartitechSonataMenuBundle" %}config.label_delete{% endtrans %}</strong></a></li>
+				    	<li><a class="btn-menuitem" href="{{admin.getChild('sonata_menu.admin.menu_item').generateUrl('edit', {'id':item.id})}}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>  <strong>{% trans from "PartitechSonataMenuBundle" %}config.label_modify{% endtrans %}</strong></a></li>
+				  	</ul>
+				</div>
+        	</div>
+        </div>
+    </li>
+{% endfor %}
+
+</ul>
+
+{% elseif type == 'tree' %}
+
+{% import '@PartitechSonataMenu/Menu/menu_tree_macro.html.twig' as tree %}
+
+{{ tree.menu(items, admin) }}
+
+{% endif %}

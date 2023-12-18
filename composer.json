@@ -1,0 +1,35 @@
+{
+    "name": "partitech/sonata-menu-bundle",
+    "type": "symfony-bundle",
+    "description": "This bundle provides menu management by sonata admin bundle (compatible with sonata page bundle).",
+    "keywords": ["menu management", "sonata admin menu bundle"],
+    "homepage": "https://github.com/nan-guo/SonataMenuBundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Nan GUO",
+            "email": "guonanhq@gmail.com",
+            "homepage": "https://github.com/nan-guo/"
+        },
+        {
+            "name": "Prodigious",
+            "homepage": "http://www.prodigious.com/"
+        }
+    ],
+    "require": {
+        "php": ">=8.2",
+        "doctrine/doctrine-bundle": "^1.8 || ^2.0",
+        "sonata-project/admin-bundle": "^4.16.0",
+        "sonata-project/doctrine-orm-admin-bundle": "^4.4.0",
+        "symfony/config": ">=6.0",
+        "symfony/framework-bundle": ">=6.0"
+    },
+    "autoload": {
+        "psr-4": { "Partitech\\SonataMenu\\": "src" }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.x-dev"
+        }
+    }
+}

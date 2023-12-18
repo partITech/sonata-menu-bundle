@@ -1,0 +1,15 @@
+{% if menuItems is not null and menuItems|length > 0 %}
+
+    {% import '@PartitechSonataMenu/Blocks/menu_tree_macro.html.twig' as tree %}
+    {% if app.request.attributes.get('page') is defined and app.request.attributes.get('page') != null%}
+        {% set page=app.request.attributes.get('page') %}
+        {% set relativePath=page.site.relativePath %}
+    {% else %}
+        {% set relativePath='' %}
+    {% endif %}
+
+    {% set currentPath = app.request.requestUri %}
+
+    {{ tree.menu(menuItems, currentPath, relativePath) }}
+
+{% endif %}

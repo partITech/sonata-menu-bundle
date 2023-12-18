@@ -1,0 +1,42 @@
+{% macro menu(items, currentPath, relativePath) %}
+
+    {% import _self as self %}
+    <ul>
+        {% for menuItem in items %}
+
+            {% if menuItem.url starts with '#' %}
+                {% set url =  menuItem.url %}
+            {% else %}
+                {% set url = relativePath ~ menuItem.url %}
+            {% endif %}
+            {% set attributes = "menu-item" %}
+            {% if menuItem.classAttribute %}
+                {% set attributes = attributes ~ ' ' ~ menuItem.classAttribute %}
+            {% endif %}
+            {% if menuItem.hasChild() %}
+
+                {% set attributes = attributes ~ ' has-child' %}
+
+                {% for childItem in menuItem.children %}
+
+                    {% set childUrl = childItem.url %}
+
+                    {% if childUrl == currentPath %}
+                        {% set attributes = attributes ~ ' current-parent' %}
+                    {% endif %}
+
+                {% endfor %}
+
+            {% endif %}
+            <li class="{{ attributes }} {{ menuItem.classAttribute }} menu-item-{{ menuItem.id }} " role="menu-item">
+                {% if menuItem.hasChild() %}
+                    <a href="{{ url }}" class="parent has-submenu menu-item  {% if currentPath == url %}  current {% endif %}" {% if menuItem.target %} target="_blank"{% endif %}>{{ menuItem.name }}</a>
+                {{ self.menu(menuItem.children, currentPath, relativePath) }}
+                {% else %}
+                    <a href="{{ url }}" class="child menu-item {% if currentPath == url %} current{% endif %} " {% if menuItem.target %} target="_blank"{% endif %}>{{ menuItem.name }}</a>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+
+{% endmacro %}
