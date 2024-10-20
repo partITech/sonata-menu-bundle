@@ -36,6 +36,8 @@ class DoctrineResolveTargetEntityPass implements CompilerPassInterface
         $this->removeEntityMapping($definition, Menu::class, $menuTarget);
         $this->removeEntityMapping($definition, MenuItem::class, $menuItemTarget);
         $definition->addTag('doctrine.event_subscriber', ['connection' => 'default']);
+
+
     }
 
     // Ignore orm objects in Entity folder

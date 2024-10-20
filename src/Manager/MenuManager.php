@@ -44,8 +44,11 @@ class MenuManager
     public function __construct(EntityManagerInterface $em)
     {
         $this->em = $em;
-        $this->menuRepository = $em->getRepository(MenuInterface::class);
+
         $this->menuItemRepository = $em->getRepository(MenuItemInterface::class);
+        $this->menuRepository = $em->getRepository(MenuInterface::class);
+
+
     }
 
     /**
