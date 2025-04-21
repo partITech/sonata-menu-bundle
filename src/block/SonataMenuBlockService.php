@@ -53,7 +53,7 @@ final class SonataMenuBlockService extends AbstractBlockService implements Edita
         $this->request = $requestStack->getCurrentRequest();
     }
 
-    public function execute(BlockContextInterface $blockContext, Response $response = null): Response
+    public function execute(BlockContextInterface $blockContext, ?Response $response = null): Response
     {
         $cms = $this->cmsSelector->retrieve();
         $siteId = $cms->getCurrentPage()->getSite()->getId();
